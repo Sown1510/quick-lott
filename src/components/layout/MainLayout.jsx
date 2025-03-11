@@ -1,54 +1,56 @@
 import React from 'react';
 import { colors, typography } from '../../theme/colors';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGamepad, faHistory, faMoneyBillWave, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const MainLayout = ({ children }) => {
   return (
-    <div style={{
+    <Box style={{
       width: 375,
       height: 1600,
       position: 'relative',
       background: colors.background.primary
     }}>
       {/* Header */}
-      <header style={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '13px',
-        gap: '15px'
-      }}>
-        <img 
-          style={{
-            width: 34.97,
-            height: 36,
-            borderRadius: 12
-          }}
-          src="https://placehold.co/35x36"
-          alt="Logo"
-        />
-        <div style={{
+      <AppBar position='fixed' sx={{background: colors.background.secondary, width: '375px', left: 0}}>
+        <Toolbar sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 3
+          padding: '13px',
+          gap: '15px'
         }}>
-          <div style={{
+          <Link to="/">
+            <img 
+              style={{
+                width: 34.97,
+                height: 36,
+                borderRadius: 12
+              }}
+              src="https://placehold.co/35x36"
+              alt="Logo"
+            />
+          </Link>
+          
+          <Typography variant='h6' sx={{
             color: colors.text.primary,
-            fontSize: typography.fontSize.lg,
             fontFamily: typography.fontFamily.title,
-            fontWeight: typography.fontWeight.medium,
-            lineHeight: typography.lineHeight.normal
+            fontWeight: typography.fontWeight.medium
           }}>
             Quick Lott
-          </div>
-        </div>
-      </header>
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      
 
       {/* Main Content */}
-      <main>
+      <main style={{paddingTop: '77px'}}>
         {children}
       </main>
 
       {/* Bottom Navigation */}
-      <nav style={{
+      <Box sx={{
         width: 375,
         height: 77,
         paddingLeft: 3,
@@ -60,20 +62,19 @@ const MainLayout = ({ children }) => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <NavItem icon="games" label="Games" active />
-        <NavItem icon="history" label="History" />
-        <NavItem icon="earn" label="Earn" badge="3" />
-        <NavItem icon="account" label="Account" />
-      </nav>
-    </div>
+        <NavItem icon={<FontAwesomeIcon icon={faGamepad} />} label="Games" active />
+        <NavItem icon={<FontAwesomeIcon icon={faHistory} />} label="History" />
+        <NavItem icon={<FontAwesomeIcon icon={faMoneyBillWave} />} label="Earn" badge="3" />
+        <NavItem icon={<FontAwesomeIcon icon={faUser} />} label="Account" />
+      </Box>
+    </Box>
   );
 };
 
 const NavItem = ({ icon, label, active, badge }) => {
   const getIconColor = () => active ? colors.text.primary : colors.text.secondary;
-  
   return (
-    <div style={{
+    <Box sx={{
       paddingTop: 12,
       paddingBottom: 16,
       display: 'flex',
@@ -81,7 +82,7 @@ const NavItem = ({ icon, label, active, badge }) => {
       alignItems: 'center',
       gap: 4
     }}>
-      <div style={{
+      <Box sx={{
         width: 64,
         height: 32,
         position: 'relative',
@@ -89,10 +90,10 @@ const NavItem = ({ icon, label, active, badge }) => {
         background: active ? colors.background.accent : 'transparent'
       }}>
         {/* Icon will be replaced with actual SVG based on prop */}
-        <div style={{ width: 24, height: 24, margin: '4px auto' }} />
+        <Box sx={{ width: 24, height: 24, margin: '4px auto' }} />
         
         {badge && (
-          <div style={{
+          <Box style={{
             paddingLeft: 4,
             paddingRight: 4,
             position: 'absolute',
@@ -107,10 +108,10 @@ const NavItem = ({ icon, label, active, badge }) => {
             letterSpacing: typography.letterSpacing.wide
           }}>
             {badge}
-          </div>
+          </Box>
         )}
-      </div>
-      <div style={{
+      </Box>
+      <Typography sx={{
         color: getIconColor(),
         fontSize: typography.fontSize.sm,
         fontFamily: typography.fontFamily.primary,
@@ -120,8 +121,8 @@ const NavItem = ({ icon, label, active, badge }) => {
         textAlign: 'center'
       }}>
         {label}
-      </div>
-    </div>
+      </Typography>
+    </Box>
   );
 };
 

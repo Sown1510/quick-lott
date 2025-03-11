@@ -1,100 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, typography } from '../../theme/colors';
+import { Card, CardContent, Grid2, Typography } from '@mui/material';
 
 const Countdown = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  function calculateTimeLeft() {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
-  }
-
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
+    return () => clearTimeout(timer);
+  }, [targetDate, timeLeft]);
 
-    return () => clearInterval(timer);
-  }, [targetDate]);
+  function calculateTimeLeft() {
+    const difference = targetDate - new Date();
+    let time = {};
+    if (difference > 0) {
+      time = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000),
+      };
+    }
+    return time;
+  };
 
   const TimeBox = ({ value, label }) => (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '4px'
-    }}>
-      <div style={{
-        width: '60px',
-        height: '60px',
-        background: colors.background.secondary,
-        borderRadius: '8px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: colors.accent,
-        fontSize: '28px',
-        fontFamily: typography.fontFamily.title,
-        fontWeight: typography.fontWeight.medium
-      }}>
-        {String(value).padStart(2, '0')}
-      </div>
-      <div style={{
-        color: colors.text.secondary,
-        fontSize: typography.fontSize.sm,
-        fontFamily: typography.fontFamily.primary,
-        fontWeight: typography.fontWeight.medium
-      }}>
+    <Grid2 item xs={3}>
+      <Card sx={{background: colors.background.secondary, borderRadius: 2, display: 'flex', alignItems:'center', justifyContent:'center', color: colors.accent, height: 60}}>
+        <CardContent>
+          <Typography sx={{fontSize: 28, fontFamily: typography.fontFamily.title, fontWeight: typography.fontWeight.medium}}>
+            {String(value).padStart(2, '0')}
+          </Typography>
+        </CardContent>
+      </Card>
+      <Typography sx={{color: colors.text.secondary, fontSize: typography.fontSize.sm, fontFamily: typography.fontFamily.primary, fontWeight: typography.fontWeight.medium}}>
         {label}
-      </div>
-    </div>
+      </Typography>
+    </Grid2>
   );
 
   return (
-    <div style={{
-      width: '337px',
-      height: '200px',
-      background: colors.background.accent,
-      borderRadius: '8px',
-      padding: '20px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '20px'
-    }}>
-      <div style={{
-        color: colors.text.primary,
-        fontSize: '20px',
-        fontFamily: typography.fontFamily.title,
-        fontWeight: typography.fontWeight.medium
-      }}>
-        Next Draw In
-      </div>
-      
-      <div style={{
-        display: 'flex',
-        gap: '16px',
-        justifyContent: 'center'
-      }}>
-        <TimeBox value={timeLeft.days} label="Days" />
-        <TimeBox value={timeLeft.hours} label="Hours" />
-        <TimeBox value={timeLeft.minutes} label="Minutes" />
-        <TimeBox value={timeLeft.seconds} label="Seconds" />
-      </div>
-    </div>
+    <Card sx={{width: 337, height: 200, background: colors.background.accent, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px'}}>
+      <CardContent>
+        <Typography sx={{color: colors.text.primary, fontSize: 20, fontFamily: typography.fontFamily.title, fontWeight: typography.fontWeight.medium}}>
+          Next Draw In
+        </Typography>
+        <Grid2 container spacing={1} justifyContent="center">
+          <TimeBox value={timeLeft.days} label="Days" />
+          <TimeBox value={timeLeft.hours} label="Hours"/>
+          <TimeBox value={timeLeft.minutes} label="Minutes"/>
+          <TimeBox value={timeLeft.seconds} label="Seconds"/>
+        </Grid2>
+      </CardContent>
+    </Card>
   );
+  
 };
 
 export default Countdown;
