@@ -1,9 +1,10 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import React from "react";
+import { Button } from "@mui/material";
 
-import { colors, typography } from '../../theme/colors';
+import { colors, typography } from "../../theme/colors";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
-const CustomButton = ({ children, onClick, variant = 'contained', fullWidth = false }) => {
+const CustomButton = ({ children, onClick, variant = "contained", fullWidth = false, sx, ...props }) => {
   return (
     <Button
       variant={variant}
@@ -12,15 +13,17 @@ const CustomButton = ({ children, onClick, variant = 'contained', fullWidth = fa
       sx={{
         backgroundColor: colors.accent,
         color: colors.text.tertiary,
-        '&:hover': {
+        "&:hover": {
           backgroundColor: colors.accentHover,
         },
-        padding: '12px 24px',
-        borderRadius: '8px',
+        minWidth: "unset",
+        borderRadius: "8px",
         fontFamily: typography.fontFamily.primary,
         fontSize: typography.fontSize.base,
         fontWeight: typography.fontWeight.medium,
+        ...sx,
       }}
+      {...props}
     >
       {children}
     </Button>
