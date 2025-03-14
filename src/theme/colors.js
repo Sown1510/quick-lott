@@ -3,11 +3,18 @@ export const colors = {
   primary: "#2D65F8",
   accent: "#a3ff12",
 
+  // Border Colors
+  border: {
+    primary: "#2D65F8",
+    accent: "#a3ff12",
+  },
+
   // Text Colors
   text: {
     primary: "#ffffff",
     secondary: "rgba(255, 255, 255, 0.7)",
     tertiary: "#1d1d31",
+    accent: "#a3ff12",
     black: "#000000",
     red: "#",
   },

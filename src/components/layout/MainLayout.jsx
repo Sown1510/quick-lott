@@ -1,7 +1,7 @@
 import React from "react";
 import { colors, typography } from "../../theme/colors";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGamepad, faHistory, faMoneyBillWave, faUser } from "@fortawesome/free-solid-svg-icons";
 const ROUTES = {
@@ -12,6 +12,7 @@ const ROUTES = {
 };
 
 const MainLayout = ({ children }) => {
+  const location = useLocation();
   return (
     <Box
       style={{
@@ -74,10 +75,10 @@ const MainLayout = ({ children }) => {
           alignItems: "center",
         }}
       >
-        <NavItem icon={<FontAwesomeIcon icon={faGamepad} />} label="Games" active to={ROUTES.GAMES} />
-        <NavItem icon={<FontAwesomeIcon icon={faHistory} />} label="History" to={ROUTES.HISTORY} />
-        <NavItem icon={<FontAwesomeIcon icon={faMoneyBillWave} />} label="Earn" badge="3" to={ROUTES.EARN} />
-        <NavItem icon={<FontAwesomeIcon icon={faUser} />} label="Account" to={ROUTES.ACCOUNT} />
+        <NavItem icon={<FontAwesomeIcon icon={faGamepad} />} label="Games" active={location.pathname === ROUTES.GAMES} to={ROUTES.GAMES} />
+        <NavItem icon={<FontAwesomeIcon icon={faHistory} />} label="History" active={location.pathname === ROUTES.HISTORY} to={ROUTES.HISTORY} />
+        <NavItem icon={<FontAwesomeIcon icon={faMoneyBillWave} />} label="Earn" badge="3" active={location.pathname === ROUTES.EARN} to={ROUTES.EARN} />
+        <NavItem icon={<FontAwesomeIcon icon={faUser} />} label="Account" active={location.pathname === ROUTES.ACCOUNT} to={ROUTES.ACCOUNT} />
       </Box>
     </Box>
   );
